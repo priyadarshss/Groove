@@ -1,47 +1,74 @@
 
 import logo from './logo.png';
 import './App.css';
+import { useState } from 'react';
  
 function App() {
+  const [featuredPlaylists, setFeaturedPlaylists] = useState([
+    {
+      id: 1,
+      name: "Today's Top Hits",
+      imageUrl: '/top-hits.jpg'
+    },
+    {
+      id: 2,
+      name: 'Pop Party',
+      imageUrl: '/pop-party.jpg'
+    },
+    {
+      id: 3,
+      name: 'Dinner Party',
+      imageUrl: '/dinner-party.jpg'
+    }
+  ]);
+  const [newReleases, setNewReleases] = useState([
+    {
+      id: 1,
+      name: 'Map of the Soul: 7',
+      imageUrl: '/map-of-the-soul-7.jpg'
+    },
+    {
+      id: 2,
+      name: 'Fine Line',
+      imageUrl: '/fine-line.jpg'
+    },
+    {
+      id: 3,
+      name: 'Folklore',
+      imageUrl: '/folklore.jpg'
+    }
+  ]);
+
   return (
     <div>
-      <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-        <a
-          className="navbar-brand col-sm-3 col-md-2 ms-3"
-          href="http://www.dappuniversity.com/bootcamp"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Dapp University
-        </a>
-      </nav>
-      <div className="container-fluid mt-5">
-        <div className="row">
-          <main role="main" className="col-lg-12 d-flex text-center">
-            <div className="content mx-auto mt-5">
-              <a
-                href="http://www.dappuniversity.com/bootcamp"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <img src={logo} className="App-logo" alt="logo"/>
-              </a>
-              <h1 className= "mt-5">Dapp University Starter Kit</h1>
-              <p>
-                Edit <code>src/frontend/components/App.js</code> and save to reload.
-              </p>
-              <a
-                className="App-link"
-                href="http://www.dappuniversity.com/bootcamp"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                LEARN BLOCKCHAIN <u><b>NOW! </b></u>
-              </a>
+      <header>
+        <img src="/logo.png" alt="Spotify logo" />
+        <nav>
+          <a href="/browse">Browse</a>
+          <a href="/search">Search</a>
+          <a href="/your-library">Your Library</a>
+        </nav>
+      </header>
+      <main>
+        <section>
+          <h2>Featured Playlists</h2>
+          {featuredPlaylists.map(playlist => (
+            <div key={playlist.id}>
+              <img src={playlist.imageUrl} alt={playlist.name} />
+              <p>{playlist.name}</p>
             </div>
-          </main>
-        </div>
-      </div>
+          ))}
+        </section>
+        <section>
+          <h2>New Releases</h2>
+          {newReleases.map(release => (
+            <div key={release.id}>
+              <img src={release.imageUrl} alt={release.name} />
+              <p>{release.name}</p>
+            </div>
+          ))}
+        </section>
+      </main>
     </div>
   );
 }
