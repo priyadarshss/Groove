@@ -5,7 +5,8 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 contract GrooveMarketplace is ERC721("DAppFi", "DAPP"), Ownable {
-    string public baseURI = "https://bafybeidsfdmup3upk5btnsyg2yelxv6sobxupxvkhdqs6kl6ef5ahmmcni.ipfs.nftstorage.link/";
+    string public baseURI =
+        "https://bafybeidsfdmup3upk5btnsyg2yelxv6sobxupxvkhdqs6kl6ef5ahmmcni.ipfs.nftstorage.link/";
     string public baseExtension = ".json";
     address public artist;
     uint256 public royaltyFee;
@@ -23,7 +24,6 @@ contract GrooveMarketplace is ERC721("DAppFi", "DAPP"), Ownable {
         address buyer,
         uint256 price
     );
-
     event MarketItemRelisted(
         uint256 indexed tokenId,
         address indexed seller,
@@ -41,14 +41,13 @@ contract GrooveMarketplace is ERC721("DAppFi", "DAPP"), Ownable {
         );
         royaltyFee = _royaltyFee;
         artist = _artist;
-
         for (uint8 i = 0; i < _prices.length; i++) {
             require(_prices[i] > 0, "Price must be greater than 0");
             _mint(address(this), i);
             marketItems.push(MarketItem(i, payable(msg.sender), _prices[i]));
         }
     }
-    
+
     function updateRoyaltyFee(uint256 _royaltyFee) external onlyOwner {
         royaltyFee = _royaltyFee;
     }

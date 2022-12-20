@@ -1,76 +1,116 @@
+import { Link, BrowserRouter, Routes, Route } from 'react-router-dom'
+import { useState } from 'react'
+import { ethers } from 'ethers'
+import GrooveMarketplaceAbi from '../contractsData/GrooveMarketplace.json'
+import GrooveMarketplaceAddress from '../contractsData/GrooveMarketplace-address.json'
+import { Spinner, Navbar, Nav, Button, Container } from 'react-bootstrap'
+import logo from './logo.png'
+import Home from './Home.js'
+// import MyTokens from './MyTokens.js'
+// import MyResales from './MyResales.js'
+import './App.css'
 
-import logo from './logo.png';
-import './App.css';
-import { useState } from 'react';
- 
 function App() {
-  const [featuredPlaylists, setFeaturedPlaylists] = useState([
-    {
-      id: 1,
-      name: "Today's Top Hits",
-      imageUrl: '/top-hits.jpg'
-    },
-    {
-      id: 2,
-      name: 'Pop Party',
-      imageUrl: '/pop-party.jpg'
-    },
-    {
-      id: 3,
-      name: 'Dinner Party',
-      imageUrl: '/dinner-party.jpg'
-    }
-  ]);
-  const [newReleases, setNewReleases] = useState([
-    {
-      id: 1,
-      name: 'Map of the Soul: 7',
-      imageUrl: '/map-of-the-soul-7.jpg'
-    },
-    {
-      id: 2,
-      name: 'Fine Line',
-      imageUrl: '/fine-line.jpg'
-    },
-    {
-      id: 3,
-      name: 'Folklore',
-      imageUrl: '/folklore.jpg'
-    }
-  ]);
+  const [loading, setLoading] = useState(true)
+  const [account, setAccount] = useState(null)
+  const [contract, setContract] = useState({})
 
+  const web3Handler = async () => {
+    const accounts = await window.ethereum.request({
+      method: 'eth_requestAccounts',
+    })
+    setAccount(accounts[0])
+    // Get provider from Metamask
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    // Get signer
+    const signer = provider.getSigner()
+    loadContract(signer)
+  }
+  const loadContract = async (signer) => {
+    // Get deployed copy of music nft marketplace contract
+    const contract = new ethers.Contract(
+      GrooveMarketplaceAddress.address,
+      GrooveMarketplaceAbi.abi,
+      signer
+    )
+    setContract(contract)
+    setLoading(false)
+  }
   return (
-    <div>
-      <header>
-        <img src="/logo.png" alt="Spotify logo" />
-        <nav>
-          <a href="/browse">Browse</a>
-          <a href="/search">Search</a>
-          <a href="/your-library">Your Library</a>
-        </nav>
-      </header>
-      <main>
-        <section>
-          <h2>Featured Playlists</h2>
-          {featuredPlaylists.map(playlist => (
-            <div key={playlist.id}>
-              <img src={playlist.imageUrl} alt={playlist.name} />
-              <p>{playlist.name}</p>
+    <BrowserRouter>
+      <div className='App'>
+        <>
+          <Navbar expand='lg' bg='secondary' variant='dark'>
+            <Container>
+              <Navbar.Brand href='http://www.dappuniversity.com/bootcamp'>
+                <img src={logo} width='40' height='40' className='' alt='' />
+                &nbsp; Music NFT player
+              </Navbar.Brand>
+              <Navbar.Toggle aria-controls='responsive-navbar-nav' />
+              <Navbar.Collapse id='responsive-navbar-nav'>
+                <Nav className='me-auto'>
+                  <Nav.Link as={Link} to='/'>
+                    Home
+                  </Nav.Link>
+                  <Nav.Link as={Link} to='/my-tokens'>
+                    My Tokens
+                  </Nav.Link>
+                  <Nav.Link as={Link} to='/my-resales'>
+                    My Resales
+                  </Nav.Link>
+                </Nav>
+                <Nav>
+                  {account ? (
+                    <Nav.Link
+                      href={`https://etherscan.io/address/${account}`}
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      className='button nav-button btn-sm mx-4'
+                    >
+                      <Button variant='outline-light'>
+                        {account.slice(0, 5) + '...' + account.slice(38, 42)}
+                      </Button>
+                    </Nav.Link>
+                  ) : (
+                    <Button onClick={web3Handler} variant='outline-light'>
+                      Connect Wallet
+                    </Button>
+                  )}
+                </Nav>
+              </Navbar.Collapse>
+            </Container>
+          </Navbar>
+        </>
+        <div>
+          {loading ? (
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                minHeight: '80vh',
+              }}
+            >
+              <Spinner animation='border' style={{ display: 'flex' }} />
+              <p className='mx-3 my-0'>Awaiting Metamask Connection...</p>
             </div>
-          ))}
-        </section>
-        <section>
-          <h2>New Releases</h2>
-          {newReleases.map(release => (
-            <div key={release.id}>
-              <img src={release.imageUrl} alt={release.name} />
-              <p>{release.name}</p>
-            </div>
-          ))}
-        </section>
-      </main>
-    </div>
-  );
+          ) : (
+            <Routes>
+              <Route path='/' element={<Home contract={contract} />} />
+              {/* <Route
+                path='/my-tokens'
+                element={<MyTokens contract={contract} />}
+              />
+              <Route
+                path='/my-resales'
+                element={<MyResales contract={contract} account={account} />}
+              /> */}
+            </Routes>
+          )}
+        </div>
+      </div>
+    </BrowserRouter>
+  )
 }
 
-export default App;
+export default App
