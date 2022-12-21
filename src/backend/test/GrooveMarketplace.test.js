@@ -59,7 +59,7 @@ describe('GrooveMarketplace', function () {
           const item = await nftMarketplace.marketItems(indx)
           expect(item.tokenId).to.equal(indx)
           expect(item.seller).to.equal(deployer.address)
-          expect(item.price).to.equal(i)
+          expect(item.price).to.equal(i*1)
         })
       )
     })
