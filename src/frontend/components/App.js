@@ -61,32 +61,6 @@ function App() {
         <AppBar position='static' style={{ background: '#2E3B55' }}>
           <Container maxWidth='xl'>
             <Toolbar disableGutters>
-              <img
-                src={logo}
-                width='40'
-                height='40'
-                className=''
-                alt=''
-                style={{ borderRadius: '50px', marginRight: '10px' }}
-              />
-              <Typography
-                variant='h6'
-                noWrap
-                component='a'
-                href='/'
-                sx={{
-                  mr: 2,
-                  display: { xs: 'none', md: 'flex' },
-                  fontFamily: 'monospace',
-                  fontWeight: 700,
-                  letterSpacing: '.3rem',
-                  color: '#d1c5ab',
-                  textDecoration: 'none',
-                }}
-              >
-                GROOVE
-              </Typography>
-
               <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                 <IconButton
                   size='large'
@@ -116,22 +90,13 @@ function App() {
                     display: { xs: 'block', md: 'none' },
                   }}
                 >
-                  <MenuItem
-                    component={Link}
-                    to='/'
-                  >
+                  <MenuItem component={Link} to='/'>
                     <Typography textAlign='center'>Home</Typography>
                   </MenuItem>
-                  <MenuItem
-                    component={Link}
-                    to='/my-tokens'
-                  >
+                  <MenuItem component={Link} to='/my-tokens'>
                     <Typography textAlign='center'>My Tokens</Typography>
                   </MenuItem>
-                  <MenuItem
-                    component={Link}
-                    to='/my-resales'
-                  >
+                  <MenuItem component={Link} to='/my-resales'>
                     <Typography textAlign='center'>My Resales</Typography>
                   </MenuItem>
                 </Menu>
@@ -177,7 +142,41 @@ function App() {
                   My Resales
                 </Button>
               </Box>
-
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  position: 'fixed',
+                  left: '45%',
+                }}
+              >
+                <img
+                  src={logo}
+                  width='40'
+                  height='40'
+                  className=''
+                  alt=''
+                  style={{ borderRadius: '50px', marginRight: '10px' }}
+                />
+                <Typography
+                  variant='h6'
+                  noWrap
+                  component='a'
+                  href='/'
+                  sx={{
+                    display: { xs: 'none', md: 'flex' },
+                    fontFamily: 'monospace',
+                    fontWeight: 700,
+                    fontSize: '30px',
+                    letterSpacing: '.3rem',
+                    color: '#d1c5ab',
+                    textDecoration: 'none',
+                  }}
+                >
+                  GROOVE
+                </Typography>
+              </Box>
               <Box sx={{ flexGrow: 0 }}>
                 {account ? (
                   <Nav.Link
