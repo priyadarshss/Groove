@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { ethers } from 'ethers'
-import Identicon from 'identicon.js'
 import { Row, Col, Card, Button, InputGroup, Form } from 'react-bootstrap'
+import Jdenticon from 'react-jdenticon'
 
 export default function MyTokens({ contract }) {
   const audioRefs = useRef([])
@@ -22,17 +22,12 @@ export default function MyTokens({ contract }) {
         // use uri to fetch the nft metadata stored on ipfs
         const response = await fetch(uri + '.json')
         const metadata = await response.json()
-        const identicon = `data:image/png;base64,${new Identicon(
-          metadata.name + metadata.price,
-          330
-        ).toString()}`
         // define item object
         let item = {
           price: i.price,
           itemId: i.tokenId,
           name: metadata.name,
           audio: metadata.audio,
-          identicon,
           resellPrice: null,
         }
         return item
@@ -83,7 +78,7 @@ export default function MyTokens({ contract }) {
                   ref={(el) => (audioRefs.current[idx] = el)}
                 ></audio>
                 <Card>
-                  <Card.Img variant='top' src={item.identicon} />
+                  <Jdenticon size='175' value={`${item.itemId}`} />
                   <Card.Body color='secondary'>
                     <Card.Title>{item.name}</Card.Title>
                     <div className='d-grid px-4'>
@@ -153,8 +148,8 @@ export default function MyTokens({ contract }) {
           </Row>
         </div>
       ) : (
-        <main style={{ padding: '1rem 0' }}>
-          <h2>No owned tokens</h2>
+        <main style={{ padding: '1rem 0'}}>
+          <h2 style={{color: 'white'}}>No owned tokens</h2>
         </main>
       )}
     </div>

@@ -2,8 +2,8 @@ import { useState, useEffect, useRef } from 'react'
 import { ethers } from 'ethers'
 import { Card, Button, ButtonGroup } from 'react-bootstrap'
 import Jdenticon from 'react-jdenticon'
-import { Divider, Grid, Typography } from '@mui/material'
-import { borderColor } from '@mui/system'
+import { Divider, Grid, IconButton, Typography } from '@mui/material'
+import DownloadRoundedIcon from '@mui/icons-material/DownloadRounded'
 
 const Home = ({ contract }) => {
   const audioRef = useRef(null)
@@ -11,6 +11,27 @@ const Home = ({ contract }) => {
   const [isPlaying, setIsPlaying] = useState(null)
   const [currentItemIndex, setCurrentItemIndex] = useState(0)
   const [marketItems, setMarketItems] = useState(null)
+  const artists = [
+    'iFeature',
+    'Dryskill & Max Brhon',
+    'if found x Luma',
+    'Jim Yosef & Shiah Maisel',
+    'BEAUZ & Heleen',
+    'SIIK & Alenn',
+    "Andrew A & Barmuda",
+    "JOXION"
+  ]
+
+  const songLinks = [
+    'https://ncs.io/track/download/acf3c421-b007-49e0-8a73-7eae7f3382fa',
+    'https://ncs.io/track/download/947408ff-0ebe-44fe-b024-212caffeb421',
+    'https://ncs.io/track/download/8ed613ee-0ae9-4004-9e0d-2033f9a51c07',
+    'https://ncs.io/track/download/a5bc205f-cbe5-4ed0-a4d9-bb91748f3c94',
+    'https://ncs.io/track/download/388edba1-ce44-42ee-a478-039814aad24c',
+    'https://ncs.io/track/download/a1f4b637-117c-44e5-a39d-d8d193a78fd6',
+    'https://ncs.io/track/download/a33e3f44-76e0-45e5-8bca-927e2acab1df',
+    'https://ncs.io/track/download/fac66b50-a790-4707-a73a-3bbe9ac0ef1c',
+  ]
   const loadMarketplaceItems = async () => {
     // Get all unsold items/tokens
 
@@ -75,7 +96,7 @@ const Home = ({ contract }) => {
   })
 
   useEffect(() => {
-    document.body.style.backgroundColor = '#241606'
+    document.body.style.backgroundColor = '#0c0c0c'
   }, [])
 
   if (loading)
@@ -87,12 +108,13 @@ const Home = ({ contract }) => {
   return (
     <div
       style={{
-        backgroundColor: '#4f3110',
+        backgroundColor: '#061124',
       }}
     >
       <Grid container sx={{ marginTop: '15vh', justifyContent: 'center' }}>
+        <Grid xs={1} sx={{ backgroundColor: '#0c0c0c' }}></Grid>
         <Grid xs={4} sx={{ height: '50vh' }}>
-          <Grid Typography>
+          <Grid>
             <div className='container-fluid'>
               {marketItems.length > 0 ? (
                 <div className='row'>
@@ -106,93 +128,47 @@ const Home = ({ contract }) => {
                         src={marketItems[currentItemIndex].audio}
                         ref={audioRef}
                       ></audio>
-                      <Card style={{ backgroundColor: '#8f4a00' }}>
-                        <Card.Header>
+                      <Card
+                        style={{
+                          backgroundColor: '#182438',
+                          marginLeft: '-15px',
+                          borderRadius: '20px',
+                        }}
+                      >
+                        <Card.Header style={{ color: 'white' }}>
                           {currentItemIndex + 1} of {marketItems.length}
                         </Card.Header>
+                        <Divider
+                          sx={{
+                            bgcolor: 'white',
+                            marginBottom: '20px',
+                          }}
+                        />
                         <Jdenticon size='175' value={`${currentItemIndex}`} />
-
                         <Card.Body color='secondary'>
-                          <Typography color='#fcedd9' variant='h4'>
+                          <Typography color='#e3dfd5' variant='h4'>
                             {' '}
                             {marketItems[currentItemIndex].name}
                           </Typography>
-                          <div className='d-grid px-4'>
-                            <ButtonGroup
-                              class='btn-group btn-group-sm'
-                              role='group'
-                              size='sm'
-                              aria-label='Basic example'
-                            >
-                              <Button
-                                variant='secondary'
-                                onClick={() => skipSong(false)}
-                              >
-                                <svg
-                                  xmlns='http://www.w3.org/2000/svg'
-                                  width='22'
-                                  height='22'
-                                  fill='currentColor'
-                                  className='bi bi-skip-backward'
-                                  viewBox='0 0 16 16'
-                                >
-                                  <path d='M.5 3.5A.5.5 0 0 1 1 4v3.248l6.267-3.636c.52-.302 1.233.043 1.233.696v2.94l6.267-3.636c.52-.302 1.233.043 1.233.696v7.384c0 .653-.713.998-1.233.696L8.5 8.752v2.94c0 .653-.713.998-1.233.696L1 8.752V12a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5zm7 1.133L1.696 8 7.5 11.367V4.633zm7.5 0L9.196 8 15 11.367V4.633z' />
-                                </svg>
-                              </Button>
-                              <Button
-                                variant='secondary'
-                                onClick={() => setIsPlaying(!isPlaying)}
-                              >
-                                {isPlaying ? (
-                                  <svg
-                                    xmlns='http://www.w3.org/2000/svg'
-                                    width='32'
-                                    height='32'
-                                    fill='currentColor'
-                                    className='bi bi-pause'
-                                    viewBox='0 0 16 16'
-                                  >
-                                    <path d='M6 3.5a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5zm4 0a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z' />
-                                  </svg>
-                                ) : (
-                                  <svg
-                                    xmlns='http://www.w3.org/2000/svg'
-                                    width='32'
-                                    height='32'
-                                    fill='currentColor'
-                                    className='bi bi-play'
-                                    viewBox='0 0 16 16'
-                                  >
-                                    <path d='M10.804 8 5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z' />
-                                  </svg>
-                                )}
-                              </Button>
-                              <Button
-                                variant='secondary'
-                                onClick={() => skipSong(true)}
-                              >
-                                <svg
-                                  xmlns='http://www.w3.org/2000/svg'
-                                  width='22'
-                                  height='22'
-                                  fill='currentColor'
-                                  className='bi bi-skip-forward'
-                                  viewBox='0 0 16 16'
-                                >
-                                  <path d='M15.5 3.5a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V8.752l-6.267 3.636c-.52.302-1.233-.043-1.233-.696v-2.94l-6.267 3.636C.713 12.69 0 12.345 0 11.692V4.308c0-.653.713-.998 1.233-.696L7.5 7.248v-2.94c0-.653.713-.998 1.233-.696L15 7.248V4a.5.5 0 0 1 .5-.5zM1 4.633v6.734L6.804 8 1 4.633zm7.5 0v6.734L14.304 8 8.5 4.633z' />
-                                </svg>
-                              </Button>
-                            </ButtonGroup>
-                          </div>
                         </Card.Body>
+                        <Divider
+                          sx={{
+                            marginTop: '15px',
+                            bgcolor: 'white',
+                          }}
+                        />
                         <Card.Footer>
                           <div className='d-grid my-1'>
                             <Button
                               onClick={() =>
                                 buyMarketItem(marketItems[currentItemIndex])
                               }
+                              style={{
+                                backgroundColor: '#2d3b53',
+                                borderColor: '#191329',
+                              }}
                               variant='primary'
-                              size='sm'
+                              size='lg'
                             >
                               {`Buy for ${ethers.utils.formatEther(
                                 marketItems[currentItemIndex].price
@@ -214,29 +190,121 @@ const Home = ({ contract }) => {
         </Grid>
 
         <Grid xs={6}>
-          <Grid sx={{ display: 'flex' }}>
+          <Grid sx={{ display: 'flex', marginTop: 1 }}>
             <Grid xs={1}>
               <Typography color='#fcedd9'>#</Typography>
             </Grid>
-            <Grid xs={7}>
+            <Grid xs={5}>
               <Typography color='#fcedd9'>Title</Typography>
             </Grid>
-            <Grid xs={3}>
+            <Grid xs={4}>
               <Typography color='#fcedd9'>Artist</Typography>
             </Grid>
-            <Grid xs={1}>
+            <Grid xs={2}>
               <Typography color='#fcedd9'>V</Typography>
             </Grid>
           </Grid>
-          <Divider sx={{ marginTop: '17px' }} />
+          <Divider
+            sx={{
+              marginTop: '10px',
+              bgcolor: 'white',
+            }}
+          />
 
-          <Grid Typography>
-            <Typography>xs</Typography>
-          </Grid>
+          {marketItems.map((item, i) => {
+            return (
+              <Grid container sx={{ marginTop: '5px' }}>
+                <Grid xs={1}>
+                  <Typography color='white'>{i + 1}</Typography>
+                </Grid>
+                <Grid xs={5}>
+                  <Typography color='white'>{item.name}</Typography>
+                </Grid>
+                <Grid xs={4}>
+                  <Typography color='white'>{artists[i]}</Typography>
+                </Grid>
+                <Grid xs={2}>
+                  <IconButton
+                    sx={{ color: 'white' }}
+                    target='_blank'
+                    href={songLinks[i]}
+                  >
+                    <DownloadRoundedIcon sx={{ cursor: 'pointer' }} />
+                  </IconButton>
+                </Grid>
+              </Grid>
+            )
+          })}
         </Grid>
+        <Grid xs={1} sx={{ backgroundColor: '#0c0c0c' }}></Grid>
 
-        <Grid xs={12}>
-          <Typography>xs</Typography>
+        <Grid container>
+          <Grid xs={1} sx={{ backgroundColor: '#0c0c0c' }}></Grid>
+
+          <Grid xs={10}>
+            <div className='d-grid px-4'>
+              <ButtonGroup
+                class='btn-group btn-group-sm'
+                role='group'
+                size='sm'
+                aria-label='Basic example'
+              >
+                <Button variant='secondary' onClick={() => skipSong(false)}>
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    width='22'
+                    height='22'
+                    fill='currentColor'
+                    className='bi bi-skip-backward'
+                    viewBox='0 0 16 16'
+                  >
+                    <path d='M.5 3.5A.5.5 0 0 1 1 4v3.248l6.267-3.636c.52-.302 1.233.043 1.233.696v2.94l6.267-3.636c.52-.302 1.233.043 1.233.696v7.384c0 .653-.713.998-1.233.696L8.5 8.752v2.94c0 .653-.713.998-1.233.696L1 8.752V12a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5zm7 1.133L1.696 8 7.5 11.367V4.633zm7.5 0L9.196 8 15 11.367V4.633z' />
+                  </svg>
+                </Button>
+                <Button
+                  variant='secondary'
+                  onClick={() => setIsPlaying(!isPlaying)}
+                >
+                  {isPlaying ? (
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      width='32'
+                      height='32'
+                      fill='currentColor'
+                      className='bi bi-pause'
+                      viewBox='0 0 16 16'
+                    >
+                      <path d='M6 3.5a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5zm4 0a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z' />
+                    </svg>
+                  ) : (
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      width='32'
+                      height='32'
+                      fill='currentColor'
+                      className='bi bi-play'
+                      viewBox='0 0 16 16'
+                    >
+                      <path d='M10.804 8 5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z' />
+                    </svg>
+                  )}
+                </Button>
+                <Button variant='secondary' onClick={() => skipSong(true)}>
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    width='22'
+                    height='22'
+                    fill='currentColor'
+                    className='bi bi-skip-forward'
+                    viewBox='0 0 16 16'
+                  >
+                    <path d='M15.5 3.5a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V8.752l-6.267 3.636c-.52.302-1.233-.043-1.233-.696v-2.94l-6.267 3.636C.713 12.69 0 12.345 0 11.692V4.308c0-.653.713-.998 1.233-.696L7.5 7.248v-2.94c0-.653.713-.998 1.233-.696L15 7.248V4a.5.5 0 0 1 .5-.5zM1 4.633v6.734L6.804 8 1 4.633zm7.5 0v6.734L14.304 8 8.5 4.633z' />
+                  </svg>
+                </Button>
+              </ButtonGroup>
+            </div>
+          </Grid>
+          <Grid xs={1} sx={{ backgroundColor: '#0c0c0c' }}></Grid>
         </Grid>
       </Grid>
     </div>
