@@ -64,6 +64,29 @@ const Home = ({ contract }) => {
     await (await contract.buyToken(item.itemId, { value: item.price })).wait()
     loadMarketplaceItems()
   }
+
+  const [audioProgress, setAudioProgress] = useState(0)
+
+  // ... existing code
+
+  const handleAudioProgress = () => {
+    if (audioRef.current) {
+      setAudioProgress(audioRef.current.currentTime / audioRef.current.duration)
+    }
+  }
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.addEventListener('timeupdate', handleAudioProgress)
+    }
+    return () => {
+      if (audioRef.current) {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        audioRef.current.removeEventListener('timeupdate', handleAudioProgress)
+      }
+    }
+  }, [audioRef])
+
   const skipSong = (forwards) => {
     if (forwards) {
       setCurrentItemIndex(() => {
@@ -269,16 +292,16 @@ const Home = ({ contract }) => {
                 >
                   <SkipPreviousIcon />
                 </Button>
-                  <Button
-                    variant='secondary'
-                    style={{
-                      backgroundColor: 'black',
-                      borderColor: '#2c3647',
-                      padding: '8px 20px',
-                      fontSize: '18px',
-                    }}
-                    onClick={() => setIsPlaying(!isPlaying)}
-                  >
+                <Button
+                  variant='secondary'
+                  style={{
+                    backgroundColor: 'black',
+                    borderColor: '#2c3647',
+                    padding: '8px 20px',
+                    fontSize: '18px',
+                  }}
+                  onClick={() => setIsPlaying(!isPlaying)}
+                >
                   {isPlaying ? (
                     <svg
                       xmlns='http://www.w3.org/2000/svg'
@@ -311,12 +334,49 @@ const Home = ({ contract }) => {
                     padding: '8px 20px',
                     fontSize: '18px',
                   }}
-                  onClick={() => skipSong(true)}
+                  onClick={() => {
+                    skipSong(true)
+                    setAudioProgress(0)
+                  }}
                 >
                   <SkipNextIcon />
                 </Button>
               </ButtonGroup>
             </div>
+            <div
+              style={{
+                width: '100%',
+                backgroundColor: '#182438',
+                height: '5px',
+                marginTop: '10px',
+              }}
+            >
+              <div
+                style={{
+                  width: `${audioProgress * 100}%`,
+                  backgroundColor: '#cec3a8',
+                  height: '5px',
+                }}
+              />
+            </div>
+            {/* Duration of song */}
+            {/* {audioRef.current && (
+              <div
+                style={{
+                  color: 'white',
+                  textAlign: 'end',
+                  marginRight: '10px',
+                }}
+              >
+                {Math.floor(audioRef.current.duration / 60)
+                  .toString()
+                  .padStart(2, '0')}
+                :
+                {Math.floor(audioRef.current.duration % 60)
+                  .toString()
+                  .padStart(2, '0')}
+              </div>
+            )} */}
           </Grid>
           <Grid xs={1} sx={{ backgroundColor: '#0c0c0c' }}></Grid>
         </Grid>
