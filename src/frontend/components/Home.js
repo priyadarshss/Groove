@@ -6,7 +6,6 @@ import { Divider, Grid, IconButton, Typography } from '@mui/material'
 import DownloadRoundedIcon from '@mui/icons-material/DownloadRounded'
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious'
 import SkipNextIcon from '@mui/icons-material/SkipNext'
-import { SkipPrevious } from '@mui/icons-material'
 
 const Home = ({ contract }) => {
   const audioRef = useRef(null)
@@ -21,8 +20,8 @@ const Home = ({ contract }) => {
     'Jim Yosef & Shiah Maisel',
     'BEAUZ & Heleen',
     'SIIK & Alenn',
-    "Andrew A & Barmuda",
-    "JOXION"
+    'Andrew A & Barmuda',
+    'JOXION',
   ]
 
   const songLinks = [
@@ -216,7 +215,12 @@ const Home = ({ contract }) => {
 
           {marketItems.map((item, i) => {
             return (
-              <Grid container sx={{ marginTop: '5px' }}>
+              <Grid
+                container
+                sx={{
+                  marginTop: '5px',
+                }}
+              >
                 <Grid xs={1}>
                   <Typography color='white'>{i + 1}</Typography>
                 </Grid>
@@ -252,13 +256,29 @@ const Home = ({ contract }) => {
                 size='sm'
                 aria-label='Basic example'
               >
-                <Button onClick={() => skipSong(false)}>
-                  <SkipPrevious />
-                </Button>
                 <Button
-                  variant='secondary'
-                  onClick={() => setIsPlaying(!isPlaying)}
+                  style={{
+                    borderRadius: '20px 0px 0px 20px',
+                    backgroundColor: 'black',
+                    borderColor: '#2c3647',
+
+                    padding: '8px 20px',
+                    fontSize: '18px',
+                  }}
+                  onClick={() => skipSong(false)}
                 >
+                  <SkipPreviousIcon />
+                </Button>
+                  <Button
+                    variant='secondary'
+                    style={{
+                      backgroundColor: 'black',
+                      borderColor: '#2c3647',
+                      padding: '8px 20px',
+                      fontSize: '18px',
+                    }}
+                    onClick={() => setIsPlaying(!isPlaying)}
+                  >
                   {isPlaying ? (
                     <svg
                       xmlns='http://www.w3.org/2000/svg'
@@ -283,17 +303,17 @@ const Home = ({ contract }) => {
                     </svg>
                   )}
                 </Button>
-                <Button variant='secondary' onClick={() => skipSong(true)}>
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    width='22'
-                    height='22'
-                    fill='currentColor'
-                    className='bi bi-skip-forward'
-                    viewBox='0 0 16 16'
-                  >
-                    <path d='M15.5 3.5a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V8.752l-6.267 3.636c-.52.302-1.233-.043-1.233-.696v-2.94l-6.267 3.636C.713 12.69 0 12.345 0 11.692V4.308c0-.653.713-.998 1.233-.696L7.5 7.248v-2.94c0-.653.713-.998 1.233-.696L15 7.248V4a.5.5 0 0 1 .5-.5zM1 4.633v6.734L6.804 8 1 4.633zm7.5 0v6.734L14.304 8 8.5 4.633z' />
-                  </svg>
+                <Button
+                  style={{
+                    borderRadius: '0px 20px 20px 0px',
+                    backgroundColor: 'black',
+                    borderColor: '#2c3647',
+                    padding: '8px 20px',
+                    fontSize: '18px',
+                  }}
+                  onClick={() => skipSong(true)}
+                >
+                  <SkipNextIcon />
                 </Button>
               </ButtonGroup>
             </div>
