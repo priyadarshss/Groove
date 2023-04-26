@@ -359,24 +359,33 @@ const Home = ({ contract }) => {
                 }}
               />
             </div>
-            {/* Duration of song */}
-            {/* {audioRef.current && (
+            {/* Time */}
+            {audioRef.current && (
               <div
                 style={{
                   color: 'white',
-                  textAlign: 'end',
+                  textAlign: 'center',
                   marginRight: '10px',
                 }}
               >
-                {Math.floor(audioRef.current.duration / 60)
+                {Math.floor(audioRef.current.currentTime / 60)
                   .toString()
                   .padStart(2, '0')}
                 :
-                {Math.floor(audioRef.current.duration % 60)
+                {Math.floor(audioRef.current.currentTime % 60)
                   .toString()
                   .padStart(2, '0')}
+                {isNaN(audioRef.current.duration)
+                  ? ''
+                  : ` / ${Math.floor(audioRef.current.duration / 60)
+                      .toString()
+                      .padStart(2, '0')}:${Math.floor(
+                      audioRef.current.duration % 60
+                    )
+                      .toString()
+                      .padStart(2, '0')}`}
               </div>
-            )} */}
+            )}
           </Grid>
           <Grid xs={1} sx={{ backgroundColor: '#0c0c0c' }}></Grid>
         </Grid>
